@@ -1,12 +1,22 @@
 package com.elixr.mongodbcrud.response;
 
-import lombok.Data;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
 @RequiredArgsConstructor
-@Data
 public class Response {
     @NonNull
+    private Integer statusCode;
+    @NonNull
     private String message;
+    @NonNull
+    private String status;
+    @NonNull
+    private String traceId;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private Object data;
 }

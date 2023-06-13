@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService  {
     public void delete(String id) throws UserNotFoundException {
         Optional<User> user = this.getById(id);
         if(user.isPresent()) {
-            userRepository.delete(user.get());
+            userRepository.deleteById(user.get().getId());
         } else {
             throw new UserNotFoundException();
         }
