@@ -1,5 +1,6 @@
 package com.elixr.mongodbcrud.exception;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class UserNotFoundException extends Exception {
+public class InvalidInputException extends Exception {
     private String message;
 }

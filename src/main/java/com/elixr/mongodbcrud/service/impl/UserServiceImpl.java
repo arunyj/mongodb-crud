@@ -5,6 +5,7 @@ import com.elixr.mongodbcrud.model.User;
 import com.elixr.mongodbcrud.repository.UserRepository;
 import com.elixr.mongodbcrud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,9 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService  {
+
+    @Value("${message.error.user.not.found}")
+    private String ERROR_MESSAGE_USE_NOT_FOUND;
 
     @Autowired
     UserRepository userRepository;
@@ -33,22 +37,13 @@ public class UserServiceImpl implements UserService  {
 
     @Override
     public void delete(String id) throws UserNotFoundException {
-        Optional<User> user = this.getById(id);
-        if(user.isPresent()) {
-            userRepository.deleteById(user.get().getId());
-        } else {
-            throw new UserNotFoundException();
-        }
+        User user = this.getById(id).orElseThrow(()-> new UserNotFoundException(ERROR_MESSAGE_USE_NOT_FOUND));
+        userRepository.deleteById(user.getId());
     }
 
     @Override
     public User update(User user) throws UserNotFoundException {
-        Optional<User> userCheck = this.getById(user.getId());
-        if(userCheck.isEmpty()) {
-            throw new UserNotFoundException();
-        } else {
-           user = userRepository.save(user);
-        }
-        return user;
+        this.getById(user.getId()).orElseThrow(() ->new UserNotFoundException(ERROR_MESSAGE_USE_NOT_FOUND));
+        return userRepository.save(user);
     }
 }
